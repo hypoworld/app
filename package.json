@@ -1,0 +1,98 @@
+{
+	"name": "hypo-app",
+	"productName": "Hypo Game",
+	"version": "1.0.0",
+	"description": "Kom jij ook online?",
+	"license": "MIT",
+	"author": "Hypo Games",
+	"main": "src/index.js",
+	"repository": "ikheetjeff/hypo-app",
+	"flash_version": "32.0.0.363",
+	"scripts": {
+		"postinstall": "electron-builder install-app-deps",
+		"lint": "xo",
+		"test": "npm run lint",
+		"start": "electron .",
+		"pack": "electron-builder --dir",
+		"mac": "electron-builder --macos",
+		"windows": "electron-builder --windows",
+		"linux": "electron-builder --linux",
+		"release": "np"
+	},
+	"dependencies": {
+		"del": "^5.1.0",
+		"dotenv": "^8.2.0",
+		"electron-simple-updater": "^2.0.8",
+		"electron-squirrel-startup": "^1.0.0",
+		"jquery": "^3.5.0",
+		"jquery-easing": "0.0.1"
+	},
+	"devDependencies": {
+		"electron": "^7.1.1",
+		"electron-builder": "^22.8.1",
+		"electron-debug": "^3.1.0",
+		"electron-notarize": "^1.0.0",
+		"np": "^6.3.2",
+		"xo": "^0.32.1"
+	},
+	"xo": {
+		"envs": [
+			"node",
+			"browser"
+		]
+	},
+	"np": {
+		"publish": false,
+		"releaseDraft": false
+	},
+	"build": {
+		"appId": "nl.habbo.HypoGame",
+		"extraResources": [
+			{
+				"from": "./plugins/",
+				"to": "../plugins"
+			}
+		],
+		"mac": {
+			"category": "public.games.social-networking",
+			"darkModeSupport": true,
+			"hardenedRuntime": true,
+			"gatekeeperAssess": false,
+			"entitlements": "build/entitlements-mac.plist",
+			"entitlementsInherit": "build/entitlements-mac.plist"
+		},
+		"dmg": {
+			"iconSize": 160,
+			"contents": [
+				{
+					"x": 180,
+					"y": 170
+				},
+				{
+					"x": 480,
+					"y": 170,
+					"type": "link",
+					"path": "/Applications"
+				}
+			]
+		},
+		"linux": {
+			"target": [
+				"AppImage",
+				"deb"
+			],
+			"category": "Network;Chat"
+		},
+		"win": {
+			"target": [
+				{
+					"target": "nsis",
+					"arch": [
+						"x64",
+						"ia32"
+					]
+				}
+			]
+		}
+	}
+}
