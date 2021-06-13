@@ -7,6 +7,7 @@ if(require('electron-squirrel-startup')) {
     app.quit();
 }
 
+let mainWindow;
 let tray = null;
 
 app.setAppUserModelId("nl.habbo.HypoGame");
@@ -26,6 +27,7 @@ switch (process.platform) {
 }
 
 app.commandLine.appendSwitch("disable-renderer-backgrounding"), app.commandLine.appendSwitch("--enable-npapi"), app.commandLine.appendSwitch("--ppapi-flash-path", n), app.commandLine.appendSwitch("--ppapi-flash-version", r), app.commandLine.appendSwitch('ignore-certificate-errors', 'true'), app.commandLine.appendSwitch('allow-insecure-localhost', 'true');
+
 
 let menuTemplate = [{
     label: 'Refresh',
