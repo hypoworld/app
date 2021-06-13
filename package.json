@@ -20,12 +20,14 @@
 		"release": "np"
 	},
 	"dependencies": {
+		"auto-launch": "^5.0.5",
 		"del": "^5.1.0",
 		"dotenv": "^8.2.0",
 		"electron-simple-updater": "^2.0.8",
 		"electron-squirrel-startup": "^1.0.0",
 		"jquery": "^3.5.0",
-		"jquery-easing": "0.0.1"
+		"jquery-easing": "0.0.1",
+		"keytar": "^7.7.0"
 	},
 	"devDependencies": {
 		"electron": "^7.1.1",
