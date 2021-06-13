@@ -1,4 +1,4 @@
-const { app, BrowserWindow, session } = require('electron');
+const { app, BrowserWindow, session, Menu, Tray } = require('electron');
 const path = require('path');
 const keytar = require('keytar');
 const AutoLaunch = require('auto-launch');
@@ -6,6 +6,8 @@ const AutoLaunch = require('auto-launch');
 if(require('electron-squirrel-startup')) { 
     app.quit();
 }
+
+let tray = null;
 
 app.setAppUserModelId("nl.habbo.HypoGame");
 
@@ -24,6 +26,20 @@ switch (process.platform) {
 }
 
 app.commandLine.appendSwitch("disable-renderer-backgrounding"), app.commandLine.appendSwitch("--enable-npapi"), app.commandLine.appendSwitch("--ppapi-flash-path", n), app.commandLine.appendSwitch("--ppapi-flash-version", r), app.commandLine.appendSwitch('ignore-certificate-errors', 'true'), app.commandLine.appendSwitch('allow-insecure-localhost', 'true');
+
+let menuTemplate = [{
+    label: 'Refresh',
+    click: () =>
+        mainWindow.reload(),
+    },
+    {
+        label: 'Leeg cache',
+        click: async () => {
+            await session.defaultSession.clearStorageData();
+            mainWindow.reload();
+        }
+    }
+];
 
 const createWindow = () => {
 	keytar.findCredentials('hypo-data').then(result => {
@@ -51,7 +67,7 @@ const createWindow = () => {
 		});
 
 		mainWindow = new BrowserWindow({
-			title: "Hypo App",
+			title: "Hypo Ganes",
 			webPreferences: {
 				plugins: true,
 				nodeIntegration: false,
@@ -71,6 +87,11 @@ const createWindow = () => {
 			mainWindow = null;
 		});
 
+		if (process.platform !== 'darwin') {
+			let menu = Menu.buildFromTemplate(menuTemplate);
+        	Menu.setApplicationMenu(menu);
+        }
+
 		mainWindow.show();
 	});
 };
@@ -78,8 +99,26 @@ const createWindow = () => {
 app.on('ready', () => {
     createWindow();
 
+    // Tray icon (Windows)
+    if (process.platform !== 'darwin') {
+    	tray = new Tray(path.join(__dirname + '/icon.ico'));
+    	
+    	const contextMenu = Menu.buildFromTemplate([{
+      		label: 'Afsluiten',
+      		click() { app.quit(); },
+    	}]);
+
+    	tray.setToolTip('Hypo Game')
+  		tray.setContextMenu(contextMenu)
+
+    	tray.on('click', () => {
+			mainWindow.show();
+    	});
+    };
+
+    // Automatisch starten
 	let autoLaunch = new AutoLaunch({
-		name: 'Hypo Games',
+		name: 'Hypo Game',
 		path: app.getPath('exe'),
 	});
 
