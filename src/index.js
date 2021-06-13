@@ -70,7 +70,7 @@ const createWindow = () => {
 		});
 
 		mainWindow = new BrowserWindow({
-			title: "Hypo Ganes",
+			title: "Hypo Game",
 			webPreferences: {
 				plugins: true,
 				nodeIntegration: false,
