@@ -2,6 +2,7 @@ const { app, BrowserWindow, session, Menu, Tray } = require('electron');
 const path = require('path');
 const keytar = require('keytar');
 const AutoLaunch = require('auto-launch');
+require("./presence");
 
 if(require('electron-squirrel-startup')) { 
     app.quit();
